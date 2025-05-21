@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+</head>
+<body>
+    <h2>Confirm Payment</h2>
+    <ul>
+        {% for cart_item in cart_items %}
+        <li>
+            <h3>{{ cart_item.item.title }}</h3>
+            <p>Price: ${{ cart_item.item.price }}</p>
+            {% if cart_item.item.sold %}
+            <p><strong>Item is no longer available.</strong></p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Pay</button>
+    </form>
+    <p><a href="{% url 'cart' %}">Back to Cart</a></p>
+</body>
+</html>

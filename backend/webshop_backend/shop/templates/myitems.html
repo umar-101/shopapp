@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Items</title>
+</head>
+<body>
+    <h2>Your Items</h2>
+    <h3>Items on Sale</h3>
+    <ul>
+        {% for item in on_sale_items %}
+        <li>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+            <p>Price: ${{ item.price }}</p>
+            <p>Date Added: {{ item.date_added }}</p>
+            <a href="{% url 'edit_item' item.id %}">Edit</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Sold Items</h3>
+    <ul>
+        {% for item in sold_items %}
+        <li>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+            <p>Price: ${{ item.price }}</p>
+            <p>Sold</p>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Purchased Items</h3>
+    <ul>
+        {% for item in purchased_items %}
+        <li>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+            <p>Price: ${{ item.price }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'shop' %}">Back to Shop</a></p>
+</body>
+</html>

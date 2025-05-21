@@ -1,0 +1,17 @@
+# === Python/Django ===
+env/
+venv/
+*.pyc
+__pycache__/
+db.sqlite3
+
+# === Node.js/React Frontend ===
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/.env
+
+# === System ===
+.DS_Store
+Thumbs.db
