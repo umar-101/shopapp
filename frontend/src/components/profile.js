@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
+// mockItems not of use
 const mockItems = [
   {
     id: 1,
@@ -15,7 +16,7 @@ const mockItems = [
     images: ['/sample1.jpg', '/sample2.jpg'],
     seller__username: 'john_doe'
   },
-  // Add more mock items here
+
 ];
 
 const handleAddItem = async (e, newItem, setNewItem, setSuccess, setError) => {
@@ -28,6 +29,7 @@ const handleAddItem = async (e, newItem, setNewItem, setSuccess, setError) => {
   formData.append('description', newItem.description);
   formData.append('price', newItem.price);
 
+  //add item API integration
   try {
     const response = await fetch('http://localhost:8000/shop/add_item/', {
       method: 'POST',
@@ -57,6 +59,7 @@ const getCSRFToken = () => {
   return match ? match[1] : '';
 };
 
+// passowrd change functionality
 const handlePasswordChange = async (
   e,
   oldPassword,
@@ -76,7 +79,7 @@ const handlePasswordChange = async (
   formData.append('old_password', oldPassword);
   formData.append('new_password1', newPassword);
   formData.append('new_password2', confirmPassword);
-
+//passowrd chagne API
   try {
     const response = await fetch('http://localhost:8000/shop/account/', {
       method: 'POST',
@@ -105,12 +108,12 @@ const handlePasswordChange = async (
 const Profile = () => {
   const [loadingItems, setLoadingItems] = useState(false);
   const [itemsError, setItemsError] = useState(null);
-const [userItems, setUserItems] = useState({
-  on_sale: [],
-  sold: [],
-  purchased: []
-});
-  // Assuming you have activeTab state controlling which section is active
+    const [userItems, setUserItems] = useState({
+    on_sale: [],
+    sold: [],
+    purchased: []
+    });
+  
  
 
   const { user } = useContext(AuthContext);
@@ -134,13 +137,13 @@ const [userItems, setUserItems] = useState({
   const [editError, setEditError] = React.useState('');
 
   
-
+//fetch user personal items, sold, on sale and purchased
 useEffect(() => {
   if (activeTab === 'items') {
     setLoadingItems(true);
     fetch('http://localhost:8000/shop/user_items/', {
       method: 'GET',
-      credentials: 'include', // Important to include cookies/session for auth
+      credentials: 'include', 
     })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch items');
@@ -179,7 +182,7 @@ useEffect(() => {
     setNewItem(prev => ({ ...prev, images: imageUrls }));
   };
 
-  
+  //edit item saved in user profile
 const handleSave = async (itemId) => {
   if (!newPrice || isNaN(newPrice) || Number(newPrice) < 0) {
     setEditError('Please enter a valid price.');

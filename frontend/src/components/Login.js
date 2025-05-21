@@ -9,7 +9,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // ✅ FIX: call context
+  const { login } = useContext(AuthContext); 
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -21,8 +21,8 @@ const Login = () => {
       }
     )
     .then(response => {
-      localStorage.setItem('token', response.data.token || 'your_token'); // Optional: use real token
-      login(); // ✅ updates context state
+      localStorage.setItem('token', response.data.token || 'your_token'); 
+      login(); 
       alert('Login successful!');
       navigate('/');  // Redirect to homepage
     })

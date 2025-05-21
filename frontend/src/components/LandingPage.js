@@ -25,7 +25,7 @@ const LandingPage = () => {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  // Fetch items from backend API when debouncedSearch changes
+  // Search API USE
   useEffect(() => {
     const url = `http://localhost:8000/shop/?search=${encodeURIComponent(debouncedSearch)}`;
     fetch(url)

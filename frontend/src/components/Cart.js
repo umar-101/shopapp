@@ -17,11 +17,11 @@ const Cart = () => {
   const [checkoutMessage, setCheckoutMessage] = useState('');
   const [checkoutErrors, setCheckoutErrors] = useState([]);
 
-  // Dummy delete handler - replace with your API call
+  
   const handleDelete = async (cartItemId) => {
     try {
       await axios.delete(`http://localhost:8000/shop/cart/remove/${cartItemId}/`, { withCredentials: true });
-      // Remove from local state after successful API call
+      
       setCartItems(cartItems.filter(item => item.cart_item_id !== cartItemId));
     } catch (error) {
       console.error('Failed to delete cart item:', error);
