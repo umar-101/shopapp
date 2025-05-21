@@ -1,7 +1,18 @@
-<!-- shop/templates/landingPage.html -->
 <html>
 <body>
     <h1>Welcome to the WebShop!</h1>
-    <a href="/populate-db/">Populate Database with Test Data</a>
+
+    {% if db_populated %}
+        <p style="color:red;">Database is already populated.</p>
+        <form method="post" action="/clear-db/">
+            {% csrf_token %}
+            <button type="submit">Clear Database</button>
+        </form>
+    {% else %}
+        <form method="post" action="/populate-db/">
+            {% csrf_token %}
+            <button type="submit">Populate Database with Test Data</button>
+        </form>
+    {% endif %}
 </body>
 </html>

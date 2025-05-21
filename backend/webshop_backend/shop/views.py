@@ -11,19 +11,62 @@ from django.http import JsonResponse
 import random
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
+from django.shortcuts import render, redirect
 
-def populate_db(request):
-    Item.objects.all().delete()
-    users = list(User.objects.all())
+# def populate_db(request):
+#     Item.objects.all().delete()
+#     users = list(User.objects.all())
     
-    if not users:
-        for i in range(1, 7):
-            user = User.objects.create_user(
-                username=f'testuser{i}',
-                password=f'pass{i}',
-                email=f'testuser{i}@shop.aa'
-            )
-            users.append(user)
+#     if not users:
+#         for i in range(1, 7):
+#             user = User.objects.create_user(
+#                 username=f'testuser{i}',
+#                 password=f'pass{i}',
+#                 email=f'testuser{i}@shop.aa'
+#             )
+#             users.append(user)
+
+#     for i in range(3):
+#         seller = users[i]
+#         for j in range(10):
+#             Item.objects.create(
+#                 title=f'Item {j+1}',
+#                 description=f'Description for Item {j+1}',
+#                 price=random.randint(10, 100),
+#                 seller=seller,
+#                 availability='IN_STOCK'
+#             )
+
+#     return JsonResponse({'message': 'Database populated successfully!'})
+
+# def landing_page(request):
+#     return JsonResponse({'message': 'Welcome to the landing page'})
+
+
+def landing_page(request):
+    db_populated = User.objects.filter(username__startswith='testuser').exists()
+    return render(request, 'index.html', {'db_populated': db_populated})
+
+@csrf_exempt 
+def populate_db(request):
+    # Check if test users exist
+    if User.objects.filter(username__startswith='testuser').exists():
+        return JsonResponse({'error': 'Database is already populated!'}, status=400)
+
+    # Delete all items first just to be safe (optional)
+    Item.objects.all().delete()
+
+    # Delete any test users that might remain (optional safety)
+    User.objects.filter(username__startswith='testuser').delete()
+
+    users = []
+    for i in range(1, 7):
+        user = User.objects.create_user(
+            username=f'testuser{i}',
+            password=f'pass{i}',
+            email=f'testuser{i}@shop.aa'
+        )
+        users.append(user)
 
     for i in range(3):
         seller = users[i]
@@ -38,9 +81,10 @@ def populate_db(request):
 
     return JsonResponse({'message': 'Database populated successfully!'})
 
-def landing_page(request):
-    return JsonResponse({'message': 'Welcome to the landing page'})
-
+def clear_db(request):
+    Item.objects.all().delete()
+    User.objects.filter(username__startswith='testuser').delete()
+    return JsonResponse({'message': 'Database cleared successfully!'})
 
 @csrf_exempt  # For testing only; use proper CSRF handling in production
 def create_account(request):
